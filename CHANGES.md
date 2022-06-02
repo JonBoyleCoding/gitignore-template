@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0
 
 - If gitignore already exists, asks user to overwrite or append
 
