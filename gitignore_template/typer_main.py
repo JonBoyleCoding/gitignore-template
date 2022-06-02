@@ -1,10 +1,11 @@
-import typer
 import sys
-import requests
-import click
 
+import click
+import typer
 from github import Github
+
 from gitignore_template.utility_functions import levenshtein_distance
+
 
 def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
 			   verbose_check: bool = typer.Option(False, "--verbose", "-v", help="Verbose output")):
