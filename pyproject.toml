@@ -14,6 +14,9 @@ PyGithub = "^1.55"
 pytest = "^5.2"
 bpython = "^0.22.1"
 
+[tool.poetry.scripts]
+gitignore-template = "gitignore_template.typer_main:main"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
