@@ -1,3 +1,4 @@
+import os.path
 import sys
 
 import click
@@ -8,7 +9,7 @@ from gitignore_template.utility_functions import levenshtein_distance
 
 
 def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
-			   verbose_check: bool = typer.Option(False, "--verbose", "-v", help="Verbose output")):
+			   verbose_check: bool = typer.Option(False, "--verbose", "-v", help="Verbose output of the string match")):
 	"""
 	Download the gitignore template from github.com/github/gitignore into the current directory.
 	"""
@@ -71,9 +72,37 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	# NOTE (JB) Download the best match
 	contents = repo.get_contents(best_match)
 
-	# NOTE (JB) Save as .gitignore
-	with open(".gitignore", "w") as f:
-		f.write(contents.decoded_content.decode("utf-8"))
+	if os.path.exists(".gitignore"):
+		# NOTE (JB) Ask user if they want to overwrite, append, or cancel
+		while True:
+			typer.echo("The .gitignore file already exists. Please choose one of the following options:")
+			typer.echo("\t1: Overwrite")
+			typer.echo("\t2: Append")
+			typer.echo("\t3: Cancel")
+
+			option = click.prompt("Please choose one of the above options:", type=int)
+
+			if option == 1:
+				break
+			elif option == 2:
+				break
+			elif option == 3:
+				return 0
+
+			typer.echo("Invalid option. Please choose one of the above options.")
+
+		if option == 1:
+			# NOTE (JB) Overwrite the .gitignore file
+			with open(".gitignore", "w") as f:
+				f.write(contents.decoded_content.decode("utf-8"))
+		elif option == 2:
+			# NOTE (JB) Append to the .gitignore file
+			with open(".gitignore", "a") as f:
+				f.write("\n" + contents.decoded_content.decode("utf-8"))
+	else:		
+		# NOTE (JB) Save as .gitignore
+		with open(".gitignore", "w") as f:
+			f.write(contents.decoded_content.decode("utf-8"))
 
 	# NOTE (JB) Print success
 	typer.echo("Success!")
