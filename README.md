@@ -1,6 +1,6 @@
 # Gitignore Template
 
-This module provides a program to get the gitignore template from [https://github.com/github/gitignore](Github's gitignore templates) and save it as a `.gitignore` file in the current working directory. 
+This module provides a program to get the gitignore template from https://github.com/github/gitignore and save it as a `.gitignore` file in the current working directory. 
 
 ## Usage
 
