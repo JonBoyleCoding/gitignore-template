@@ -1,14 +1,21 @@
 [tool.poetry]
 name = "gitignore-template"
-version = "0.0.0"
+version = "1.0.0"
 description = "Downloads a gitignore template from https://github.com/github/gitignore for your project"
 authors = ["Jonathan Boyle <programmerfalcon@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
+typer = "^0.4.1"
+requests = "^2.27.1"
+PyGithub = "^1.55"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+bpython = "^0.22.1"
+
+[tool.poetry.scripts]
+gitignore-template = "gitignore_template.typer_main:main"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
