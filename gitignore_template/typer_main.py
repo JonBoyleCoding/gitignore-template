@@ -3,9 +3,8 @@ import sys
 
 import click
 import typer
+from Levenshtein import distance as levenshtein_distance
 from github import Github
-
-from gitignore_template.utility_functions import levenshtein_distance
 
 
 def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
