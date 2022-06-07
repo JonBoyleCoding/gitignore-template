@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.0
 
 Command line interface:
 - Added option to specify whether to overwrite or append from the CLI
