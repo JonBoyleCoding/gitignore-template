@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Updated Pytest version
+
 ## 1.1.1
 
 - Fix dependabot
