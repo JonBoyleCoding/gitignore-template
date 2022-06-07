@@ -3,13 +3,13 @@ from github import Github
 import pytest
 
 
-@pytest.mark.parametrize("project_type", [
-    "python",
-    "c++",
-    "godot",
-    "visualstudio",
+@pytest.mark.parametrize("project_type,gitignore_filename", [
+    ("python", "Python"),
+    ("c++", "C++"),
+    ("godot", "Godot"),
+    ("visualstudio", "VisualStudio"),
 ])
-def test_get_potential_filenames_palindrome(project_type: str):
+def test_get_potential_filenames_palindrome(project_type: str, gitignore_filename: str):
 	# NOTE (JB) Initialize the github client
 	g = Github()
 
@@ -19,3 +19,4 @@ def test_get_potential_filenames_palindrome(project_type: str):
 	gitignore_files, levenshtein_distances, min_distance_files = typer_main.get_potential_filenames(project_type, repo)
 
 	assert len(min_distance_files) == 1
+	assert min_distance_files[0][0] == gitignore_filename + ".gitignore"
