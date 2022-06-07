@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added tests for getting the filename from the github api
+- Added github workflow for running python tests on versions 3.8, 3.9, and 3.10
+- Added github workflow for yapf tests on all python files
+
 ## 1.1.3
 
 - Replace Levenshtein function with python-Levenshtein package
