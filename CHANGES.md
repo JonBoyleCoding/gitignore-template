@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+Command line interface:
+- Added option to specify whether to overwrite or append from the CLI
+
+Coding Backend:
 - Added tests for getting the filename from the github api
 - Added github workflow for running python tests on versions 3.8, 3.9, and 3.10
 - Added github workflow for yapf tests on all python files

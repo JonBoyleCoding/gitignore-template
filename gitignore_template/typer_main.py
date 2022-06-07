@@ -6,9 +6,19 @@ import click
 import typer
 from Levenshtein import distance as levenshtein_distance
 from github import Github, Repository
+from enum import Enum
 
 
-def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type")):
+class GitIgnoreReplaceType(str, Enum):
+	CHOOSE = "choose"
+	OVERWRITE = "overwrite"
+	APPEND = "append"
+
+
+def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
+               replace: GitIgnoreReplaceType = typer.Argument(GitIgnoreReplaceType.CHOOSE,
+                                                              help="The type of replacement to perform",
+                                                              show_choices=True)) -> int:
 	"""
 	Download the gitignore template from github.com/github/gitignore into the current directory.
 	"""
@@ -57,23 +67,31 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	contents = repo.get_contents(best_match)
 
 	if os.path.exists(".gitignore"):
-		# NOTE (JB) Ask user if they want to overwrite, append, or cancel
-		while True:
-			typer.echo("The .gitignore file already exists. Please choose one of the following options:")
-			typer.echo("\t1: Overwrite")
-			typer.echo("\t2: Append")
-			typer.echo("\t3: Cancel")
 
-			option = click.prompt("Please choose one of the above options:", type=int)
+		if replace == GitIgnoreReplaceType.CHOOSE:
+			# NOTE (JB) Ask user if they want to overwrite, append, or cancel
+			while True:
+				typer.echo("The .gitignore file already exists. Please choose one of the following options:")
+				typer.echo("\t1: Overwrite")
+				typer.echo("\t2: Append")
+				typer.echo("\t3: Cancel")
 
-			if option == 1:
-				break
-			elif option == 2:
-				break
-			elif option == 3:
-				return 0
+				option = click.prompt("Please choose one of the above options:", type=int)
 
-			typer.echo("Invalid option. Please choose one of the above options.")
+				if option == 1:
+					break
+				elif option == 2:
+					break
+				elif option == 3:
+					return 0
+
+				typer.echo("Invalid option. Please choose one of the above options.")
+		elif replace == GitIgnoreReplaceType.OVERWRITE:
+			option = 1
+		elif replace == GitIgnoreReplaceType.APPEND:
+			option = 2
+		else:
+			raise ValueError(f"Invalid replace type: {replace}")
 
 		if option == 1:
 			# NOTE (JB) Overwrite the .gitignore file
