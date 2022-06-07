@@ -11,7 +11,7 @@ requests = "^2.27.1"
 PyGithub = "^1.55"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.1"
 bpython = "^0.22.1"
 
 [tool.poetry.scripts]
