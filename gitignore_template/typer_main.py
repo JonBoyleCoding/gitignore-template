@@ -1,14 +1,14 @@
 import os.path
 import sys
+from typing import List, Tuple
 
 import click
 import typer
 from Levenshtein import distance as levenshtein_distance
-from github import Github
+from github import Github, Repository
 
 
-def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
-               verbose_check: bool = typer.Option(False, "--verbose", "-v", help="Verbose output of the string match")):
+def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type")):
 	"""
 	Download the gitignore template from github.com/github/gitignore into the current directory.
 	"""
@@ -19,24 +19,7 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	# NOTE (JB) Get the github/gitignore repo
 	repo = g.get_repo("github/gitignore")
 
-	# NOTE (JB) Extract all gitignore files from the repo
-	gitignore_files = [x.name for x in repo.get_contents("") if x.name.endswith(".gitignore")]
-	stripped_gitignore_files = [x.replace(".gitignore", "") for x in gitignore_files]
-
-	# NOTE (JB) Get the levenshtein distance between the user's input and the list of gitignore files
-	levenshtein_distances = [levenshtein_distance(project_type, x) for x in stripped_gitignore_files]
-
-	# NOTE (JB) Print the distances and the files
-	if verbose_check:
-		for file, distance in zip(stripped_gitignore_files, levenshtein_distances):
-			print("{} : {}".format(file, distance))
-
-	minimum_distance = min(levenshtein_distances)
-
-	# NOTE (JB) If multiple files have the same minimum distance, ask the user which one they want
-	min_distance_files = [
-	    (x, idx) for idx, (x, y) in enumerate(zip(gitignore_files, levenshtein_distances)) if y == minimum_distance
-	]
+	gitignore_files, levenshtein_distances, min_distance_files = get_potential_filenames(project_type, repo)
 
 	if len(min_distance_files) > 1:
 		typer.echo("Multiple files have the same minimum distance. Please choose one:")
@@ -109,6 +92,31 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	typer.echo("Success!")
 
 	return 0
+
+
+def get_potential_filenames(project_type: str, repo: Repository) -> Tuple[List[str], List[int], List[Tuple[str, int]]]:
+	"""
+	Get the potential filenames for the given project type.
+
+	:param project_type: The programming language/project type
+	:param repo: The github/gitignore repo
+	:return: A tuple containing the potential filenames, the levenshtein distances, and filenames with the minimum levenshtein distances
+	"""
+
+	# NOTE (JB) Extract all gitignore files from the repo
+	gitignore_files = [x.name for x in repo.get_contents("") if x.name.endswith(".gitignore")]
+	stripped_gitignore_files = [x.replace(".gitignore", "") for x in gitignore_files]
+
+	# NOTE (JB) Get the levenshtein distance between the user's input and the list of gitignore files
+	levenshtein_distances = [levenshtein_distance(project_type, x) for x in stripped_gitignore_files]
+	minimum_distance = min(levenshtein_distances)
+
+	# NOTE (JB) If multiple files have the same minimum distance, ask the user which one they want
+	min_distance_files = [
+	    (x, idx) for idx, (x, y) in enumerate(zip(gitignore_files, levenshtein_distances)) if y == minimum_distance
+	]
+
+	return gitignore_files, levenshtein_distances, min_distance_files
 
 
 def main():
