@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.3
 
 - Replace Levenshtein function with python-Levenshtein package
 
