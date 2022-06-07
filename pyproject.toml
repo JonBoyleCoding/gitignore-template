@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gitignore-template"
-version = "1.1.0"
+version = "1.1.1"
 description = "Downloads a gitignore template from https://github.com/github/gitignore for your project"
 authors = ["Jonathan Boyle <programmerfalcon@gmail.com>"]
 
