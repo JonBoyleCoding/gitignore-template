@@ -1,7 +1,7 @@
 # Gitignore Template
 
 <p align="center">
-  <a href="https://github.com/JonBoyleCoding/gitignore-template/blob/develop/LICENSE"><img src="https://img.shields.io/github/license/JonBoyleCoding/gitignore-template" alt="MIT License"></a>
+  <a href="https://github.com/JonBoyleCoding/gitignore-template/blob/master/LICENSE"><img src="https://img.shields.io/github/license/JonBoyleCoding/gitignore-template" alt="MIT License"></a>
   <a href="https://github.com/JonBoyleCoding/gitignore-template/actions"><img src=https://img.shields.io/github/workflow/status/JonBoyleCoding/gitignore-template/Python%20Test alt="CI"></a>
 </p>
 
