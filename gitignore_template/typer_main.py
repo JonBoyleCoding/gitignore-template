@@ -109,15 +109,6 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	return 0
 
 
-
-
-
-
-
-
-
-
-
 def main():
 	return typer.run(typer_main)
 
