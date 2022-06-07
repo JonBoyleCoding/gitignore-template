@@ -8,7 +8,7 @@ from github import Github
 
 
 def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
-			   verbose_check: bool = typer.Option(False, "--verbose", "-v", help="Verbose output of the string match")):
+               verbose_check: bool = typer.Option(False, "--verbose", "-v", help="Verbose output of the string match")):
 	"""
 	Download the gitignore template from github.com/github/gitignore into the current directory.
 	"""
@@ -34,7 +34,9 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	minimum_distance = min(levenshtein_distances)
 
 	# NOTE (JB) If multiple files have the same minimum distance, ask the user which one they want
-	min_distance_files = [(x, idx) for idx, (x, y) in enumerate(zip(gitignore_files, levenshtein_distances)) if y == minimum_distance]
+	min_distance_files = [
+	    (x, idx) for idx, (x, y) in enumerate(zip(gitignore_files, levenshtein_distances)) if y == minimum_distance
+	]
 
 	if len(min_distance_files) > 1:
 		typer.echo("Multiple files have the same minimum distance. Please choose one:")
@@ -98,7 +100,7 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 			# NOTE (JB) Append to the .gitignore file
 			with open(".gitignore", "a") as f:
 				f.write("\n" + contents.decoded_content.decode("utf-8"))
-	else:		
+	else:
 		# NOTE (JB) Save as .gitignore
 		with open(".gitignore", "w") as f:
 			f.write(contents.decoded_content.decode("utf-8"))

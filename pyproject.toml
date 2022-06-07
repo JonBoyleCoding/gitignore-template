@@ -18,6 +18,11 @@ bpython = "^0.22.1"
 [tool.poetry.scripts]
 gitignore-template = "gitignore_template.typer_main:main"
 
+[tool.yapf]
+based_on_style = "google"
+use_tabs = true
+column_limit = 120
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
