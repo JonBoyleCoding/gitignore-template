@@ -6,7 +6,7 @@ authors = ["Jonathan Boyle <programmerfalcon@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
-typer = "^0.7.0"
+typer = "^0.8.0"
 requests = "^2.27.1"
 PyGithub = "^1.55"
 python-Levenshtein = "^0.20.9"
