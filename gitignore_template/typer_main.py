@@ -18,7 +18,8 @@ class GitIgnoreReplaceType(str, Enum):
 def typer_main(project_type: str = typer.Argument(..., help="The programming language/project type"),
                replace: GitIgnoreReplaceType = typer.Argument(GitIgnoreReplaceType.CHOOSE,
                                                               help="The type of replacement to perform",
-                                                              show_choices=True)) -> int:
+                                                              show_choices=True),
+               directory: str = typer.Argument("", help="The directory to search in. Can be 'Global' or 'Community'")) -> int:
 	"""
 	Download the gitignore template from github.com/github/gitignore into the current directory.
 	"""
@@ -29,7 +30,7 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	# NOTE (JB) Get the github/gitignore repo
 	repo = g.get_repo("github/gitignore")
 
-	gitignore_files, levenshtein_distances, min_distance_files = get_potential_filenames(project_type, repo)
+	gitignore_files, levenshtein_distances, min_distance_files = get_potential_filenames(project_type, repo, directory)
 
 	if len(min_distance_files) > 1:
 		typer.echo("Multiple files have the same minimum distance. Please choose one:")
@@ -112,17 +113,18 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	return 0
 
 
-def get_potential_filenames(project_type: str, repo: Repository) -> Tuple[List[str], List[int], List[Tuple[str, int]]]:
+def get_potential_filenames(project_type: str, repo: Repository, directory: str="") -> Tuple[List[str], List[int], List[Tuple[str, int]]]:
 	"""
 	Get the potential filenames for the given project type.
 
 	:param project_type: The programming language/project type
 	:param repo: The github/gitignore repo
+	:param directory: The directory to search in
 	:return: A tuple containing the potential filenames, the levenshtein distances, and filenames with the minimum levenshtein distances
 	"""
 
 	# NOTE (JB) Extract all gitignore files from the repo
-	gitignore_files = [x.name for x in repo.get_contents("") if x.name.endswith(".gitignore")]
+	gitignore_files = [x.name for x in repo.get_contents(directory) if x.name.endswith(".gitignore")]
 	stripped_gitignore_files = [x.replace(".gitignore", "") for x in gitignore_files]
 
 	# NOTE (JB) Get the levenshtein distance between the user's input and the list of gitignore files
