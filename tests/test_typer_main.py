@@ -3,13 +3,7 @@ from gitignore_template import typer_main
 from github import Github
 import pytest
 
-@pytest.fixture
-def project_type():
-    return 'python'
 
-@pytest.fixture
-def gitignore_filename():
-    return 'Python'
 
 
 @pytest.mark.parametrize("project_type,gitignore_filename", [
@@ -30,7 +24,7 @@ def test_get_potential_filenames_palindrome(project_type: str, gitignore_filenam
 	assert len(min_distance_files) == 1
 	assert min_distance_files[0][0] == gitignore_filename + ".gitignore"
 
-@pytest.mark.parametrize("directory", ["", "Global", "Community"])
+@pytest.mark.parametrize("project_type,gitignore_filename,directory", [("python", "Python", ""), ("python", "Python", "Global"), ("python", "Python", "Community")])
 def test_get_potential_filenames_with_directory(project_type: str, gitignore_filename: str, directory: str):
 	# NOTE (JB) Initialize the github client
 	g = Github()
