@@ -1,3 +1,4 @@
+import unittest.mock
 from gitignore_template import typer_main
 from github import Github
 import pytest
@@ -61,7 +62,8 @@ def test_typer_main_with_directory(project_type: str, gitignore_filename: str):
 	repo = g.get_repo("github/gitignore")
 
 	# Call the typer_main function with a project_type, replace argument of GitIgnoreReplaceType.CHOOSE, and a directory argument of 'Global'
-	result = typer_main.typer_main("python", typer_main.GitIgnoreReplaceType.CHOOSE, "Global")
+	with unittest.mock.patch('typer.confirm', return_value=True):
+		result = typer_main.typer_main("python", typer_main.GitIgnoreReplaceType.CHOOSE, "Global")
 
 	# Assert that the function returns 0, which indicates success
 	assert result == 0
