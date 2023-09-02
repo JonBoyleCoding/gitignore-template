@@ -113,7 +113,7 @@ def typer_main(project_type: str = typer.Argument(..., help="The programming lan
 	return 0
 
 
-def get_potential_filenames(project_type: str, repo: Repository, directory: str) -> Tuple[List[str], List[int], List[Tuple[str, int]]]:
+def get_potential_filenames(project_type: str, repo: Repository, directory: str="") -> Tuple[List[str], List[int], List[Tuple[str, int]]]:
 	"""
 	Get the potential filenames for the given project type.
 
