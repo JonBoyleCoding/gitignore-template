@@ -44,3 +44,16 @@ def test_get_potential_filenames_community(project_type: str, gitignore_filename
 
 	assert len(min_distance_files) == 1
 	assert min_distance_files[0][0] == gitignore_filename + ".gitignore"
+
+def test_typer_main_with_directory():
+	# NOTE (JB) Initialize the github client
+	g = Github()
+
+	# NOTE (JB) Get the github/gitignore repo
+	repo = g.get_repo("github/gitignore")
+
+	# Call the typer_main function with a project_type, replace argument of GitIgnoreReplaceType.CHOOSE, and a directory argument of 'Global'
+	result = typer_main.typer_main("python", typer_main.GitIgnoreReplaceType.CHOOSE, "Global")
+
+	# Assert that the function returns 0, which indicates success
+	assert result == 0
